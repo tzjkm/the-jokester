@@ -46,7 +46,7 @@ class _TabsScreenState extends State<TabsScreen> {
     },
     {
       'title': 'Your jokes',
-      'page': UserSubmissionScreen(key: UniqueKey()),
+      'page': UserSubmissionScreen(key: ValueKey('UserSubmissionScreen')),
     },
     {
       'title': 'Customize',
@@ -61,8 +61,12 @@ class _TabsScreenState extends State<TabsScreen> {
         duration: const Duration(seconds: 1),
         color: _backgroundColor,
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(5, 65, 5, 0), // Add padding here
-          child: _pages[_selectedPageIndex]['page'] as Widget,
+          padding: const EdgeInsets.fromLTRB(5, 65, 5, 0),
+          child: IndexedStack(
+            index: _selectedPageIndex,
+            children:
+                _pages.map<Widget>((page) => page['page'] as Widget).toList(),
+          ),
         ),
       ),
       drawer: const MainDrawer(),
@@ -70,7 +74,7 @@ class _TabsScreenState extends State<TabsScreen> {
         builder: (context) => FloatingActionButton(
           onPressed: () => Scaffold.of(context).openDrawer(),
           child: Icon(Icons.menu),
-          backgroundColor: Colors.black.withOpacity(0.0), // Set opacity here
+          backgroundColor: Colors.black.withOpacity(0.0),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.startTop,

@@ -67,17 +67,19 @@ class DBHelper {
         await DBHelper.retrieveStoredJokes('userJokes');
   }
 
-  // Define a method to remove data from a table
-  static remove(String table, data) async {
+// Define a method to remove data from a table
+  static Future<void> remove(String table, data) async {
+    print('remove called');
     // Get the database
     final db = await DBHelper.database();
     // Delete the row with the given id from the table
     await db.delete(table, where: 'id=?', whereArgs: [data['id']]);
-    // Update the list of favorited jokes
-    DBHelper.favoritedJokes = await DBHelper.retrieveStoredJokes(table);
-    // Update the list of user submitted jokes
-    DBHelper.userSubmittedJokes =
-        await DBHelper.retrieveStoredJokes('userJokes');
+    // Update the list of jokes from the table where the joke was deleted
+    if (table == 'favoritedJokes') {
+      DBHelper.favoritedJokes = await DBHelper.retrieveStoredJokes(table);
+    } else if (table == 'userJokes') {
+      DBHelper.userSubmittedJokes = await DBHelper.retrieveStoredJokes(table);
+    }
   }
 
   // Define a method to retrieve jokes from a table

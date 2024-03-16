@@ -34,61 +34,74 @@ class _SearchScreenState extends State<SearchScreen> {
       behavior: HitTestBehavior.opaque,
       child: Container(
         width: double.infinity,
-        child: Column(
-          children: [
-            Expanded(
-              child: Autocomplete<Joke>(
-                displayStringForOption: _displayStringForOption,
-                optionsBuilder: (textEditingValue) {
-                  setState(() {
-                    _inputString = textEditingValue.text;
-                    var keywords = _inputString!.toLowerCase().split(' ');
+        child: Center(
+          child: Autocomplete<Joke>(
+            displayStringForOption: _displayStringForOption,
+            optionsBuilder: (textEditingValue) {
+              setState(() {
+                _inputString = textEditingValue.text;
+                var keywords = _inputString!.toLowerCase().split(' ');
 
-                    filteredJokes = jokes.where((j) {
-                      return keywords.every((keyword) =>
-                          j.content.toLowerCase().contains(keyword));
-                    }).toList();
-                  });
+                filteredJokes = jokes.where((j) {
+                  return keywords.every(
+                      (keyword) => j.content.toLowerCase().contains(keyword));
+                }).toList();
+              });
 
-                  if (textEditingValue.text.isEmpty) {
-                    return Iterable<Joke>.empty();
-                  }
-                  return filteredJokes;
-                },
-                onSelected: (Joke option) {
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => JokesBuilder(
-                      jokes: jokes,
-                      initialPageIndex: option.id,
+              if (textEditingValue.text.isEmpty) {
+                return Iterable<Joke>.empty();
+              }
+              return filteredJokes;
+            },
+            optionsViewBuilder: (BuildContext context,
+                AutocompleteOnSelected<Joke> onSelected,
+                Iterable<Joke> options) {
+              return Align(
+                alignment: Alignment.topLeft,
+                child: Material(
+                  elevation: 4.0,
+                  child: SizedBox(
+                    height:
+                        200.0, // adjust this to change the height of the options container
+                    child: ListView.builder(
+                      itemCount: options.length,
+                      itemBuilder: (context, index) {
+                        final option = options.toList()[index];
+                        return GestureDetector(
+                          onTap: () {
+                            onSelected(option);
+                          },
+                          child: ListTile(
+                            title: Text(_displayStringForOption(option)),
+                          ),
+                        );
+                      },
                     ),
-                  ));
-                },
-                fieldViewBuilder: (context, textEditingController, focusNode,
-                    onFieldSubmitted) {
-                  return TextFormField(
-                    controller: textEditingController,
-                    focusNode: focusNode,
-                    onEditingComplete: onFieldSubmitted,
-                    decoration: const InputDecoration(
-                      hintText: 'Search here',
-                      icon: Icon(Icons.search),
-                    ),
-                  );
-                },
-              ),
-            ),
-            Expanded(
-              child: ListView.builder(
-                itemCount: filteredJokes.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(filteredJokes[index].content),
-                    // Add any other relevant information about the joke
-                  );
-                },
-              ),
-            ),
-          ],
+                  ),
+                ),
+              );
+            },
+            onSelected: (Joke option) {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => JokesBuilder(
+                  jokes: jokes,
+                  initialPageIndex: option.id,
+                ),
+              ));
+            },
+            fieldViewBuilder:
+                (context, textEditingController, focusNode, onFieldSubmitted) {
+              return TextFormField(
+                controller: textEditingController,
+                focusNode: focusNode,
+                onEditingComplete: onFieldSubmitted,
+                decoration: const InputDecoration(
+                  hintText: 'Search here',
+                  icon: Icon(Icons.search),
+                ),
+              );
+            },
+          ),
         ),
       ),
     );
