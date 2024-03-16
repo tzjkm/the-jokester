@@ -42,10 +42,14 @@ class _SearchScreenState extends State<SearchScreen> {
                 optionsBuilder: (textEditingValue) {
                   setState(() {
                     _inputString = textEditingValue.text;
-                    filteredJokes = jokes
-                        .where((j) => j.content.contains(textEditingValue.text))
-                        .toList();
+                    var keywords = _inputString!.toLowerCase().split(' ');
+
+                    filteredJokes = jokes.where((j) {
+                      return keywords.every((keyword) =>
+                          j.content.toLowerCase().contains(keyword));
+                    }).toList();
                   });
+
                   if (textEditingValue.text.isEmpty) {
                     return Iterable<Joke>.empty();
                   }

@@ -10,6 +10,7 @@ import 'package:the_jokester/screens/category_jokes_screen.dart';
 import 'package:the_jokester/screens/tabs_screen.dart';
 // Import the Jokes class, which holds the state for the jokes
 import './providers/jokes.dart';
+import 'package:flutter/services.dart';
 
 // Define the main function, which is the entry point for the app
 void main() async {
@@ -19,6 +20,9 @@ void main() async {
   // Retrieve the favorited jokes from the database and assign them to DBHelper.favoritedJokes
   DBHelper.favoritedJokes =
       await DBHelper.retrieveStoredJokes('favoritedJokes');
+
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+
   // Call runApp with an instance of MyApp
   // This starts the app and displays the widget returned by MyApp's build method
   runApp(MyApp());
@@ -47,13 +51,57 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.lightBlue,
           ),
-          // Set the home of the MaterialApp to a TabsScreen
-          home: TabsScreen(),
+          // Set the initial route of the MaterialApp to the LoadingScreen
+          initialRoute: '/',
           // Define the routes for the app
           routes: {
+            '/': (context) => LoadingScreen(),
+            '/tabsScreen': (context) => TabsScreen(),
             // The CategoryDetailScreen route is commented out
             // CategoryDetailScreen.routeName: (context) => CategoryDetailScreen(title),
           }),
+    );
+  }
+}
+
+class LoadingScreen extends StatefulWidget {
+  @override
+  _LoadingScreenState createState() => _LoadingScreenState();
+}
+
+class _LoadingScreenState extends State<LoadingScreen> {
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration(seconds: 5), () {
+      Navigator.of(context).pushReplacementNamed('/tabsScreen');
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Image.asset(
+                'assets/images/download.jpeg'), // replace 'your_image.png' with your image file name
+            SizedBox(
+                height:
+                    20.0), // add some space between the image and the spinner
+            CircularProgressIndicator(),
+            SizedBox(
+                height:
+                    20.0), // add some space between the spinner and the text
+            Text(
+              'The Jokester',
+              style: TextStyle(
+                  fontSize: 24.0), // adjust the font size to your liking
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

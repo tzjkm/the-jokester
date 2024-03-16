@@ -6,7 +6,6 @@ import 'package:the_jokester/screens/search_screen.dart';
 import 'package:the_jokester/screens/user_submission_screen.dart';
 import 'package:the_jokester/screens/customize_screen.dart';
 
-//This screen will be used to control which screen will be displayed above the bottom navigation bar
 class TabsScreen extends StatefulWidget {
   const TabsScreen({Key? key}) : super(key: key);
 
@@ -22,8 +21,8 @@ class _TabsScreenState extends State<TabsScreen> {
     Colors.blue,
     Colors.yellow,
     Colors.purple,
-  ]; // Add more colors if you have more pages
-  Color _backgroundColor = Colors.red; // Initial color
+  ];
+  Color _backgroundColor = Colors.red;
 
   void _selectPage(int index) {
     setState(() {
@@ -61,14 +60,25 @@ class _TabsScreenState extends State<TabsScreen> {
       body: AnimatedContainer(
         duration: const Duration(seconds: 1),
         color: _backgroundColor,
-        child: _pages[_selectedPageIndex]['page'] as Widget,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(5, 65, 5, 0), // Add padding here
+          child: _pages[_selectedPageIndex]['page'] as Widget,
+        ),
       ),
       drawer: const MainDrawer(),
+      floatingActionButton: Builder(
+        builder: (context) => FloatingActionButton(
+          onPressed: () => Scaffold.of(context).openDrawer(),
+          child: Icon(Icons.menu),
+          backgroundColor: Colors.black.withOpacity(0.0), // Set opacity here
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
       bottomNavigationBar: BottomNavigationBar(
         onTap: _selectPage,
         currentIndex: _selectedPageIndex,
         backgroundColor: Colors.transparent,
-        selectedItemColor: Colors.black,
+        selectedItemColor: const Color.fromARGB(255, 255, 255, 255),
         unselectedItemColor: Colors.yellow,
         unselectedLabelStyle: const TextStyle(
           color: Colors.yellow,
