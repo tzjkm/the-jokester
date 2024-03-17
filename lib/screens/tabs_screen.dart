@@ -10,10 +10,11 @@ class TabsScreen extends StatefulWidget {
   const TabsScreen({Key? key}) : super(key: key);
 
   @override
-  State<TabsScreen> createState() => _TabsScreenState();
+  _TabsScreenState createState() => _TabsScreenState();
 }
 
-class _TabsScreenState extends State<TabsScreen> {
+class _TabsScreenState extends State<TabsScreen>
+    with SingleTickerProviderStateMixin {
   int _selectedPageIndex = 0;
   List<String> _images = [
     'ocean.jpg',
@@ -25,6 +26,9 @@ class _TabsScreenState extends State<TabsScreen> {
   String _backgroundImage = 'ocean.jpg';
   PageController _pageController =
       PageController(initialPage: 0); // Set the initialPage here
+
+  late AnimationController _animationController;
+  late Animation<double> _animation;
 
   final List<Map<String, dynamic>> _pages = [
     {
@@ -52,11 +56,16 @@ class _TabsScreenState extends State<TabsScreen> {
   @override
   void initState() {
     super.initState();
-    // Removed the _pageController.jumpToPage(_selectedPageIndex); line
+    _animationController = AnimationController(
+      duration: const Duration(seconds: 2),
+      vsync: this,
+    )..repeat(reverse: true);
+    _animation = Tween<double>(begin: -5, end: 5).animate(_animationController);
   }
 
   @override
   void dispose() {
+    _animationController.dispose();
     _pageController.dispose();
     super.dispose();
   }
@@ -84,6 +93,41 @@ class _TabsScreenState extends State<TabsScreen> {
             height: double.infinity,
             width: double.infinity,
             alignment: Alignment.center,
+          ),
+          Positioned(
+            top: 10.0,
+            left: 0.0,
+            right: 0.0,
+            child: Center(
+              child: AnimatedBuilder(
+                animation: _animationController,
+                builder: (context, child) {
+                  if (_animationController.isAnimating) {
+                    return Transform.translate(
+                      offset: Offset(0, _animation.value),
+                      child: child,
+                    );
+                  } else {
+                    return SizedBox
+                        .shrink(); // or some other placeholder widget
+                  }
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset('assets/images/download.jpeg', height: 32.0),
+                    SizedBox(width: 10.0),
+                    Text(
+                      "The Jokester",
+                      style: TextStyle(
+                        fontSize: 32.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(5, 65, 5, 0),
