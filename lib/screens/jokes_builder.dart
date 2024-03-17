@@ -24,7 +24,6 @@ class _JokesBuilderState extends State<JokesBuilder> {
   @override
   void initState() {
     super.initState();
-    _currentPageIndex = widget.initialPageIndex;
     _pageController = PageController(initialPage: widget.initialPageIndex);
 
     _pageController.addListener(() {
@@ -51,11 +50,15 @@ class _JokesBuilderState extends State<JokesBuilder> {
         ),
       );
     });
-    final initialJoke = widget.jokes[_currentPageIndex % widget.jokes.length];
+
+    final initialJoke =
+        widget.jokes[widget.initialPageIndex % widget.jokes.length];
     otherJokes = List<Joke>.from(widget.jokes)
-      ..removeAt(_currentPageIndex)
+      ..removeAt(widget.initialPageIndex)
       ..shuffle();
     otherJokes.insert(0, initialJoke);
+
+    _currentPageIndex = widget.initialPageIndex;
   }
 
   @override
