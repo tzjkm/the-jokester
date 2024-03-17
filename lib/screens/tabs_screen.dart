@@ -15,21 +15,16 @@ class TabsScreen extends StatefulWidget {
 
 class _TabsScreenState extends State<TabsScreen> {
   int _selectedPageIndex = 0;
-  List<Color> _colors = [
-    Colors.red,
-    Colors.green,
-    Colors.blue,
-    Colors.yellow,
-    Colors.purple,
+  List<String> _images = [
+    'ocean.jpg',
+    'tree.jpg',
+    'ocean.jpg',
+    'ocean.jpg',
+    'ocean.jpg',
   ];
-  Color _backgroundColor = Colors.red;
-
-  void _selectPage(int index) {
-    setState(() {
-      _selectedPageIndex = index;
-      _backgroundColor = _colors[index];
-    });
-  }
+  String _backgroundImage = 'ocean.jpg';
+  PageController _pageController =
+      PageController(initialPage: 0); // Set the initialPage here
 
   final List<Map<String, dynamic>> _pages = [
     {
@@ -55,19 +50,62 @@ class _TabsScreenState extends State<TabsScreen> {
   ];
 
   @override
+  void initState() {
+    super.initState();
+    // Removed the _pageController.jumpToPage(_selectedPageIndex); line
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  void _selectPage(int index) {
+    _pageController.animateToPage(
+      index,
+      duration: Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
+    setState(() {
+      _selectedPageIndex = index;
+      _backgroundImage = _images[index];
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: AnimatedContainer(
-        duration: const Duration(seconds: 1),
-        color: _backgroundColor,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(5, 65, 5, 0),
-          child: IndexedStack(
-            index: _selectedPageIndex,
-            children:
-                _pages.map<Widget>((page) => page['page'] as Widget).toList(),
+      body: Stack(
+        children: [
+          Image.asset(
+            'assets/images/$_backgroundImage',
+            fit: BoxFit.cover,
+            height: double.infinity,
+            width: double.infinity,
+            alignment: Alignment.center,
           ),
-        ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(5, 65, 5, 0),
+            child: PageView.builder(
+              controller: _pageController,
+              onPageChanged: (index) {
+                setState(() {
+                  _selectedPageIndex = index;
+                  _backgroundImage = _images[index];
+                });
+              },
+              itemCount: _pages.length,
+              itemBuilder: (ctx, index) => AnimatedSwitcher(
+                duration: Duration(milliseconds: 300),
+                transitionBuilder: (Widget child, Animation<double> animation) {
+                  return FadeTransition(child: child, opacity: animation);
+                },
+                child: _pages[index]['page'],
+              ),
+            ),
+          ),
+        ],
       ),
       drawer: const MainDrawer(),
       floatingActionButton: Builder(
@@ -103,14 +141,17 @@ class _TabsScreenState extends State<TabsScreen> {
           BottomNavigationBarItem(
             icon: Icon(Icons.search),
             label: 'Search',
+            backgroundColor: Colors.black,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.inventory_outlined),
-            label: 'Your jokes',
+            label: 'Your Jokes',
+            backgroundColor: Colors.black,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
             label: 'Settings',
+            backgroundColor: Colors.black,
           ),
         ],
       ),

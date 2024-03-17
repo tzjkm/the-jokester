@@ -5,8 +5,8 @@ class MainDrawer extends StatelessWidget {
   const MainDrawer({Key? key}) : super(key: key);
 
   void _launchURL(String url) async {
-    if (await canLaunchUrl(Uri.parse(url))) {
-      await launchUrl(Uri.parse(url));
+    if (await canLaunch(url)) {
+      await launch(url);
     } else {
       // Handle the case when the URL cannot be launched.
     }
@@ -59,6 +59,14 @@ class MainDrawer extends StatelessWidget {
                   ],
                 ),
               );
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.new_releases),
+            title: Text('Request New Feature'),
+            onTap: () {
+              _launchURL(
+                  'https://play.google.com/store/apps/details?id=com.android.chrome');
             },
           ),
         ],
