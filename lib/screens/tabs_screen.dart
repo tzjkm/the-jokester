@@ -4,7 +4,7 @@ import 'package:the_jokester/widgets/main_drawer.dart';
 import 'package:the_jokester/screens/favorites_screen.dart';
 import 'package:the_jokester/screens/search_screen.dart';
 import 'package:the_jokester/screens/user_submission_screen.dart';
-import 'package:the_jokester/screens/customize_screen.dart';
+import 'package:the_jokester/screens/settings_screen.dart';
 
 class TabsScreen extends StatefulWidget {
   const TabsScreen({Key? key}) : super(key: key);
@@ -50,7 +50,7 @@ class _TabsScreenState extends State<TabsScreen> {
     },
     {
       'title': 'Customize',
-      'page': CustomizeScreen(),
+      'page': SettingsScreen(),
     },
   ];
 
@@ -109,8 +109,8 @@ class _TabsScreenState extends State<TabsScreen> {
             label: 'Your jokes',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.dashboard_customize_rounded),
-            label: 'Customize',
+            icon: Icon(Icons.settings),
+            label: 'Settings',
           ),
         ],
       ),
