@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:the_jokester/providers/joke.dart';
-import 'package:the_jokester/screens/jokes_builder.dart';
+import 'package:the_jokester/screens/joke_detail_screen.dart';
 import '../providers/jokes.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -43,7 +43,6 @@ class _SearchScreenState extends State<SearchScreen>
 
     return GestureDetector(
       onTap: () {
-        print('xdfd');
         FocusScope.of(context).unfocus();
       },
       behavior: HitTestBehavior.opaque,
@@ -84,8 +83,7 @@ class _SearchScreenState extends State<SearchScreen>
                   child: Material(
                     elevation: 4.0,
                     child: SizedBox(
-                      height:
-                          200.0, // adjust this to change the height of the options container
+                      height: 200.0,
                       child: ListView.builder(
                         itemCount: options.length,
                         itemBuilder: (context, index) {
@@ -106,10 +104,9 @@ class _SearchScreenState extends State<SearchScreen>
               },
               onSelected: (Joke option) {
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => JokesBuilder(
-                    jokes: jokes,
-                    initialPageIndex: option.id,
-                  ),
+                  builder: (context) => JokeDetailScreen(
+                      option.id, option.content // pass the selected joke
+                      ),
                 ));
               },
               fieldViewBuilder: (context, textEditingController, focusNode,

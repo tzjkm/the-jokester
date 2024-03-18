@@ -25,10 +25,10 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
 
   void _selectRandomJokeIndex() {
     final jokesProvider = Provider.of<Jokes>(context, listen: false);
-    final filteredJokes =
-        jokesProvider.filterJokesByCategory(widget.categoryTitle);
-    if (filteredJokes.isNotEmpty) {
-      final randomIndex = Random().nextInt(filteredJokes.length);
+    final categoryJokes =
+        jokesProvider.categoryWiseJokes[widget.categoryTitle] ?? [];
+    if (categoryJokes.isNotEmpty) {
+      final randomIndex = Random().nextInt(categoryJokes.length);
       setState(() {
         _randomJokeIndex = randomIndex;
       });
@@ -38,16 +38,16 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final jokesProvider = Provider.of<Jokes>(context, listen: false);
-    final filteredJokes =
-        jokesProvider.filterJokesByCategory(widget.categoryTitle);
+    final categoryJokes =
+        jokesProvider.categoryWiseJokes[widget.categoryTitle] ?? [];
 
     return Scaffold(
-      body: filteredJokes.isEmpty
+      body: categoryJokes.isEmpty
           ? Center(
               child: Text('No jokes available in this category'),
             )
           : JokesBuilder(
-              jokes: filteredJokes,
+              jokes: categoryJokes,
               initialPageIndex: _randomJokeIndex,
             ),
     );

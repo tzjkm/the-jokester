@@ -57,13 +57,83 @@ final JOKES_LIST = [
   ),
   Joke(
     id: 6,
-    category: 'others',
+    category: 'cat2',
+    content:
+        'I couldn\'t figure out why the baseball kept getting larger.\nThen it hit me.',
+  ),
+  Joke(
+    id: 7,
+    category: 'cat2',
+    content:
+        'I couldn\'t figure out why the baseball kept getting larger.\nThen it hit me.',
+  ),
+  Joke(
+    id: 8,
+    category: 'cat2',
     content:
         'I couldn\'t figure out why the baseball kept getting larger.\nThen it hit me.',
   ),
 ];
 
-
+final Map<String, List<Joke>> CATEGORYWISE_JOKES = {
+  'cat1': [
+    Joke(
+      id: 0,
+      category: 'cat1',
+      content: 'How do you organize a space party?\nYou planet.',
+    ),
+    Joke(
+      id: 1,
+      category: 'cat1',
+      content:
+          'Why couldn\'t the bicycle stand up by itself?\nIt was two tired.',
+    ),
+    Joke(
+      id: 2,
+      category: 'cat1',
+      content:
+          'Did you hear the rumor about butter?\nWell, I\'m not going to spread it.',
+    ),
+    Joke(
+      id: 3,
+      category: 'cat1',
+      content:
+          'Why did the student eat his homework?\nBecause his teacher told him it was a piece of cake.',
+    ),
+    Joke(
+      id: 4,
+      category: 'cat1',
+      content:
+          'What did one hat say to the other?\nYou wait here, I\'ll go on ahead.',
+    ),
+    Joke(
+      id: 5,
+      category: 'cat1',
+      content:
+          'What do you call a dinosaur that crashes his car?\nTyrannosaurus Wrecks.',
+    ),
+  ],
+  'cat2': [
+    Joke(
+      id: 6,
+      category: 'cat2',
+      content:
+          'I category 2 6 couldn\'t figure out why the baseball kept getting larger.\nThen it hit me.',
+    ),
+    Joke(
+      id: 7,
+      category: 'cat2',
+      content:
+          'I category 2 7 couldn\'t figure out why the baseball kept getting larger.\nThen it hit me.',
+    ),
+    Joke(
+      id: 8,
+      category: 'cat2',
+      content:
+          'I  category 2 8 couldn\'t figure out why the baseball kept getting larger.\nThen it hit me.',
+    ),
+  ]
+};
 
 
 

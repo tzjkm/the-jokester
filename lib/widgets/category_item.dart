@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:the_jokester/screens/category_jokes_screen.dart';
+import 'package:the_jokester/screens/category_detail_screen.dart';
 
 class CategoryItem extends StatefulWidget {
   final String title;

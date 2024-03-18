@@ -12,9 +12,23 @@ class Jokes with ChangeNotifier {
   // Define a private variable _jokes and initialize it with a copy of JOKES_LIST
   List<Joke> _jokes = [...JOKES_LIST];
 
+  // Define a private variable _categoryWiseJokes and initialize it with a copy of CATEGORYWISE_JOKES
+  Map<String, List<Joke>> _categoryWiseJokes = {...CATEGORYWISE_JOKES};
+
   // Define a getter for _jokes that returns a copy of _jokes
   List<Joke> get jokes {
     return [..._jokes];
+  }
+
+  // Define a getter for _categoryWiseJokes that returns a copy of _categoryWiseJokes
+  Map<String, List<Joke>> get categoryWiseJokes {
+    return {..._categoryWiseJokes};
+  }
+
+  // Define a method to get jokes by category
+  List<Joke> getJokesByCategory(String category) {
+    // Use the getter to retrieve the jokes for the specified category
+    return [..._categoryWiseJokes[category]!];
   }
 
   // Define a method to filter jokes by category

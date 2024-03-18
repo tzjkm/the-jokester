@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 // Import the DBHelper class for database operations
 import 'package:the_jokester/helpers/db_helper.dart';
 // Import the CategoryJokesScreen class, which displays the jokes for a category
-import 'package:the_jokester/screens/category_jokes_screen.dart';
+import 'package:the_jokester/screens/category_detail_screen.dart';
 // Import the TabsScreen class, which displays the main screen with tabs
 import 'package:the_jokester/screens/tabs_screen.dart';
 // Import the Jokes class, which holds the state for the jokes
